@@ -82,6 +82,17 @@ function init() {
     visible: true,
   });
   map.addLayer(stamenBaseMapLayer);
+
+  // Tile of arcGIS REST API LAYER
+  const arcGisLayer = new ol.layer.Tile({
+    source: new ol.source.TileArcGISRest({
+      url: "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Population_World/MapServer",
+    }),
+    visible: true,
+    zIndex: 4,
+  });
+  map.addLayer(arcGisLayer);
+
   map.on("click", (x) => {
     console.log(x.coordinate);
   });
