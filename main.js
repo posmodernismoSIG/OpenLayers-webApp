@@ -8,7 +8,7 @@ function init() {
     layers: [
       new ol.layer.Tile({
         source: new ol.source.OSM(),
-        visible: false,
+        visible: true,
         zIndex: 0,
         /*extent: [
           -8615049.674084047, 1333913.6071358265, -7640383.7940574,
@@ -26,7 +26,7 @@ function init() {
           url: "https://{a-c}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
         }),
         zIndex: 1,
-        visible: true,
+        visible: false,
         extent: [
           12400753.576694038, -5658730.000549673, 17174426.336716905,
           -980228.5067132516,
@@ -52,7 +52,7 @@ function init() {
       url: "http://{1-4}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
       attributions: "© CARTO",
     }),
-    visible: true,
+    visible: false,
   });
   map.addLayer(cartoDBBaseLayer);
   // TileDebug
@@ -79,7 +79,7 @@ function init() {
       attributions:
         'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
     }),
-    visible: true,
+    visible: false,
   });
   map.addLayer(stamenBaseMapLayer);
 
@@ -88,11 +88,25 @@ function init() {
     source: new ol.source.TileArcGISRest({
       url: "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Population_World/MapServer",
     }),
-    visible: true,
+    visible: false,
     zIndex: 4,
   });
   map.addLayer(arcGisLayer);
 
+  // wms services
+
+  const WMSlayer = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url: "https://nowcoast.noaa.gov/arcgis/services/nowcoast/analysis_ocean_sfc_sst_time/MapServer/WMSServer",
+      params: {
+        LAYERS: 5,
+        FORMAT: "image/png",
+        TRANSPARENT: true,
+      },
+      attributions: "<a href=https://nowcoast.noaa.gov/>© NOAA<a/>",
+    }),
+  });
+  map.addLayer(WMSlayer);
   map.on("click", (x) => {
     console.log(x.coordinate);
   });
